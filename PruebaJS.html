@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>PRUEBA TÉCNICA JAVASCRIPT</title>
+	<style>
+		.button {
+		  border: none;
+		  color: white;
+		  padding: 16px 32px;
+		  text-align: center;
+		  text-decoration: none;
+		  display: inline-block;
+		  font-size: 16px;
+		  margin: 4px 2px;
+		  transition-duration: 0.4s;
+		  cursor: pointer;
+		}
+		.button1 {
+		  background-color: white; 
+		  color: black; 
+		  border: 2px solid #008CBA;
+		}
+		.button1:hover {
+		  background-color: #008CBA;
+		  color: white;
+		}
+		.result {
+			width: 100%;
+			height: 280px;
+			padding: 12px 20px;
+			box-sizing: border-box;
+			border: 2px solid #ccc;
+			border-radius: 4px;
+			background-color: #f8f8f8;
+			font-size: 16px;
+			resize: none;
+		}
+		.nombre {
+			font-size:      40px;
+			font-weight:    bold;
+			background-color: blue;
+			color: red;
+			-webkit-text-fill-color: transparent;
+			-webkit-background-clip: text;
+			font-weight: bold;
+			font-family: arial, helvetica;
+			width: 60%;
+			margin: 5px auto;
+			text-align: center;
+		}
+	</style>
+	<script>
+		function Procesar(){
+			/*Generar array alfabético aleatorias*/
+			var A=[],B=[];
+			const alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+			function LoadA(a){
+				for(var i=0; i <= 9; i++) {
+					let key = get_random (alphabet);
+					a.push(key);
+				}
+			}
+			function get_random (list) {
+				return list[Math.floor((Math.random()*list.length))];
+			}
+			LoadA(A);
+			LoadA(B);
+			//Unión - intersección y diferencia
+			const union = Array.from(new Set([...A, ...B]));
+			var intersec = A.filter(function(x) {
+				if(B.indexOf(x) !=- 1) return true;
+				else return false;
+			});
+			var f_intersec = [...new Set(intersec)];
+			const diferencia = A.filter(element => !B.includes(element));
+			function symmetricDiff(arr1, arr2) {
+				const symmetricDiff = arr1.filter(i => !arr2.includes(i))
+				.concat(arr2.filter(i => !arr1.includes(i)));
+				return symmetricDiff;
+			}
+			let ds = symmetricDiff(A, B);
+			let txtResult = "Elemento A: "+A+"\n"+"Elemento B: "+B+"\n\nResultado:\n\nUnión ("+union.length+") : "+union;
+			txtResult += "\n\nIntersección ("+intersec.length+") : "+intersec+"\n\nDiferencia ("+diferencia.length+") : "+diferencia;
+			txtResult += "\n\nDiferencia simétrica ("+ds.length+") : "+ds;
+			document.getElementById("txt").value = txtResult;
+		}
+		//console.log(intersec);
+		/*for(var i=0; i <= A.length; i++) {
+			if(A[i]){
+				for(var j=0; j <= B.length; j++) {
+					if(B[j] === A[i]){
+						console.log("A - "+i+" B - "+j+" Char: "+A[i]);
+					}
+				}
+			}
+		}*/
+	</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<button class="button button1" onClick="Procesar()">Calcular</button>
+<div class="nombre">Por: Juan Carlos Muñoz Cano</div>
+<form name="test">
+  <textarea class="result" name="info" id="txt"></textarea>
+</form>
+</body>
+</html>
