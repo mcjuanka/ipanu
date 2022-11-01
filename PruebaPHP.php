@@ -26,6 +26,7 @@ class Controller {
 $model = new Model();
 $controller = new Controller($model);
 $view = new View($controller, $model);
+if(isset($_REQUEST['ram'])) $data = $view->output();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -78,6 +79,7 @@ $view = new View($controller, $model);
 			background-color: #515A5A;
 			margin: 10px;
 			box-sizing: border-box;
+			border-radius: 10px;
 		}
 		/*-------------------------------------------------------*/
 		.card {
@@ -85,6 +87,7 @@ $view = new View($controller, $model);
 		  color: black;
 		  width: 50%;
 		  float: right;
+		  border-radius: 10px;
 		}
 		.card-title {
 		  font-size: 30px;
@@ -93,7 +96,6 @@ $view = new View($controller, $model);
 		  padding-top: 20px;
 		  padding-right: 10px;
 		}
-
 		.card-desc {
 		  padding-right: 10px;
 		  text-align: right;
@@ -104,46 +106,31 @@ $view = new View($controller, $model);
 		.dstyle { color: #F5F5F5; }
 	</style>
 	<script type="text/javascript">
-		var data = [];
-		function Model(){
-			var data = <?php
-				$data = $view->output();
-				echo $data;
-			?>;
-			return data;
-		}
-		function Controller(){
-			var info = Model();
-			return info;
-		}
-		function View(){
-			var lst = new Controller();
-			var nper = lst.results.length;
-			console.log(lst.results);
-			var ccard = document.getElementById('concard');
-			for(var i=0; i <= lst.results.length; i++) {
-				var lstPer = "";
-				if(i < nper){
-					var per = '<img src="'+lst.results[i].image+'" alt="Avatar" class="img">';
-						per += '<div class="card">';
-						per += '<div class="card-title"><b class="nstyle">'+lst.results[i].name+'</b></div>';
-						per += '<div class="card-desc"><label class="dstyle">'+lst.results[i].status+' - '+lst.results[i].species+'</label></div>';
-						per += '</div>';
-					var iDiv = document.createElement('div');
-					iDiv.className = 'cards';
-					iDiv.innerHTML = per;
-					ccard.appendChild(iDiv);
-				}
-			}
-		}
 	</script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<button class="button button1" onClick="View()">Rick and Morty</button>
-<form>
+<form id="frm_ram" action="php_ram.php" method="get">
+	<input type="submit" class="button button1" value="Rick and Morty">
 	<div class="inner" id="concard" name="concard">
+		<?php
+			if(isset($_REQUEST['ram'])){
+				$list = json_decode($data, true);
+				$info = $list['results'];
+				foreach ($info as $reg => $jsons){
+					$per = '<div class="cards">';
+						$per .= '<img src="'.$jsons['image'].'" alt="Avatar" class="img">';
+						$per .= '<div class="card">';
+						$per .= '<div class="card-title"><b class="nstyle">'.$jsons['name'].'</b></div>';
+						$per .= '<div class="card-desc"><label class="dstyle">'.$jsons['status'].' - '.$jsons['species'].'</label></div>';
+						$per .= '</div>';
+					$per .= '</div>';
+					echo $per;
+				}
+			}
+		?>
 	</div>
+	<input type="hidden" name="ram" value=1 />
 </form>
 </body>
 </html>
