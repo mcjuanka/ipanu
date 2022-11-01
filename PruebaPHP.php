@@ -110,7 +110,7 @@ if(isset($_REQUEST['ram'])) $data = $view->output();
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<form id="frm_ram" action="php_ram.php" method="get">
+<form id="frm_ram" action="PruebaPHP.php" method="get">
 	<input type="submit" class="button button1" value="Rick and Morty">
 	<div class="inner" id="concard" name="concard">
 		<?php
